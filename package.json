@@ -1,0 +1,38 @@
+{
+  "name": "init-api",
+  "version": "1.0.0",
+  "description": "Welcome to init. Social media designed specifically for those of us who spend our days “init.” Inspired by Instagram, init allows you to find and follow developers as they share photos and code snippets of their projects. Lets get init.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --require test/setup.js",
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js",
+    "predeploy": "npm audit",
+    "deploy": "git push heroku master"
+  },
+  "keywords": [],
+  "engines": {
+    "node": "12.18.3"
+  },
+  "author": "Adyceum Magna Ccarri, Rachel Reilly, Steven Henderson, and Trevor J Alt",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "helmet": "^4.1.1",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.21.12",
+    "morgan": "^1.10.0",
+    "pg": "^8.5.1",
+    "postgrator-cli": "^3.2.0",
+    "xss": "^1.0.8"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^8.1.3",
+    "nodemon": "^2.0.4",
+    "supertest": "^4.0.2"
+  }
+}
