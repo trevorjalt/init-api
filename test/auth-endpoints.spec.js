@@ -4,7 +4,7 @@ const app = require('../src/app')
 const helpers = require('./test-helpers')
 const supertest = require('supertest')
 
-describe.only('Auth Endpoints', function() {
+describe('Auth Endpoints', function() {
     let db
 
     const { testUsers } = helpers.makeInitFixtures()

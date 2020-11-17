@@ -101,7 +101,7 @@ function cleanTables(db) {
             `TRUNCATE
                 user_information,
                 init_posts,
-                following,
+                following
             `
         )
         .then(() =>
