@@ -6,7 +6,7 @@ CREATE TABLE init_posts (
     post_description TEXT,
     post_live_link TEXT,
     post_repository TEXT,
-    post_image bytea NOT NULL,
+    post_image BYTEA NOT NULL,
     tech_stack TEXT,
     date_created TIMESTAMPTZ DEFAULT now() NOT NULL,
     user_id INTEGER

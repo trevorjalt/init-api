@@ -13,5 +13,5 @@ CREATE TABLE user_information (
     profile_photo bytea NOT NULL,
     about_user TEXT NOT NULL,
     user_stack STACK_PREFERENCE NOT NULL,
-    date_created TIMESTAMPTZ DEFAULT now() NOT NULL,
+    date_created TIMESTAMPTZ DEFAULT now() NOT NULL
 );

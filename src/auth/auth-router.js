@@ -46,9 +46,7 @@ async function postUserLogin(req, res, next) {
             
         res.send({
         authToken: AuthService.createJwt(sub, payload),
-        })
-    
-            
+        })           
     } catch (error) {
         next(error)
         }

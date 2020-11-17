@@ -6,14 +6,14 @@ const REGEX_EMAIL = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
 
 const UserService = {
     hasUserWithUserEmail(db, email) {
-        return db('benchmark_user')
+        return db('user_information')
             .where({ email })
             .first()
             .then(email => !!email)
     },
 
     hasUserWithUserName(db, username) {
-        return db('benchmark_user')
+        return db('user_information')
             .where({ username })
             .first()
             .then(user => !!user)
@@ -22,7 +22,7 @@ const UserService = {
     insertUser(db, newUser) {
         return db
             .insert(newUser)
-            .into('benchmark_user')
+            .into('user_information')
             .returning('*')
             .then(([user]) => user)
     },
@@ -57,21 +57,27 @@ const UserService = {
     serializeUser(user) {
         return {
             id: user.id,
+            fullname: xss(user.fullname),
             username: xss(user.username),
             email: xss(user.email),
-            nickname: xss(user.nickname),
+            profile_photo: user.profile_photo,
+            about_user: xss(user.about_user),
+            user_stack: user.user_stack,
             date_created: new Date(user.date_created),
         }
     },
 
     getAllUsers(db) {
         return db  
-            .from('benchmark_user as usr')
+            .from('user_information as usr')
             .select(
                 'usr.id',
+                'usr.fullname',
                 'usr.username',
                 'usr.email',
-                'usr.nickname',
+                'usr.profile_photo',
+                'usr.about_user',
+                'usr.user_stack',
                 'usr.date_created',
             )       
     },
