@@ -107,10 +107,14 @@ async function verifyUserExists(req, res, next) {
     }
 }
 
-async function getUser(req, res) {
+async function getUser(req, res, next) {
     try {
         await res.json(UserService.serializeUser(res.user))
-    } catch {}
+
+        next()
+    } catch (error) {
+        next(error)
+    }
 }
 
 module.exports = userRouter
