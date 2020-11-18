@@ -60,7 +60,7 @@ const UserService = {
             fullname: xss(user.fullname),
             username: xss(user.username),
             email: xss(user.email),
-            profile_photo: user.profile_photo,
+            // profile_photo: user.profile_photo,
             about_user: xss(user.about_user),
             user_stack: user.user_stack,
             date_created: new Date(user.date_created),

@@ -22,8 +22,8 @@ async function registerUser(req, res, next) {
             fullname, 
             username, 
             user_password, 
-            email, 
-            profile_photo,
+            email,
+            // profile_photo, 
             about_user,
             user_stack
         } = req.body
@@ -67,7 +67,7 @@ async function registerUser(req, res, next) {
             username,
             user_password: hashedPassword,
             email,
-            profile_photo,
+            // profile_photo,
             about_user,
             user_stack,
             date_created: 'now()',
