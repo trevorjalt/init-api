@@ -22,13 +22,12 @@ async function registerUser(req, res, next) {
             fullname, 
             username, 
             user_password, 
-            email,
-            profile_photo, 
+            email, 
             about_user,
             user_stack
         } = req.body
 
-        for (const field of ['fullname', 'username', 'user_password', 'email', 'profile_photo', 'about_user', 'user_stack'])
+        for (const field of ['fullname', 'username', 'user_password', 'email', 'about_user', 'user_stack'])
             if (!req.body[field])
                 return res.status(400).json({
                     error: `Missing '${field}' in request body`
@@ -72,7 +71,6 @@ async function registerUser(req, res, next) {
             username,
             user_password: hashedPassword,
             email,
-            profile_photo,
             about_user,
             user_stack,
             date_created: 'now()',

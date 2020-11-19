@@ -34,7 +34,7 @@ describe('Users Endpoints', function() {
                 )
             )
             
-            const requiredFields = ['fullname', 'username', 'user_password', 'email', 'profile_photo', 'about_user', 'user_stack']
+            const requiredFields = ['fullname', 'username', 'user_password', 'email', 'about_user', 'user_stack']
 
             requiredFields.forEach(field => {
                 const registerAttemptBody = {
@@ -42,7 +42,6 @@ describe('Users Endpoints', function() {
                     username: 'test username',
                     user_password: 'test password',
                     email: 'email@email.com',
-                    profile_photo: '\\xDEADBEEF',
                     about_user: 'test about',
                     user_stack: 'Full Stack'
                 }
@@ -81,7 +80,6 @@ describe('Users Endpoints', function() {
                     username: 'test username',
                     user_password: '1234567',
                     email: 'test@test.com',
-                    profile_photo: '\\xDEADBEEF',
                     about_user: 'test about',
                     user_stack: 'Full Stack'
                 }
@@ -97,7 +95,6 @@ describe('Users Endpoints', function() {
                     username: 'test username',
                     user_password: '*'.repeat(73),
                     email: 'test@test.com',
-                    profile_photo: '\\xDEADBEEF',
                     about_user: 'test about',
                     user_stack: 'Full Stack'
                 }
@@ -113,7 +110,6 @@ describe('Users Endpoints', function() {
                     username: 'test username',
                     user_password: ' 1Aa!2Bb@',
                     email: 'test@test.com',
-                    profile_photo: '\\xDEADBEEF',
                     about_user: 'test about',
                     user_stack: 'Full Stack'
                 }
@@ -129,7 +125,6 @@ describe('Users Endpoints', function() {
                     username: 'test username',
                     user_password: '1Aa!2Bb@ ',
                     email: 'test@test.com',
-                    profile_photo: '\\xDEADBEEF',
                     about_user: 'test about',
                     user_stack: 'Full Stack'
                 }
@@ -145,7 +140,6 @@ describe('Users Endpoints', function() {
                     username: 'test username',
                     user_password: '11AAaabb',
                     email: 'test@test.com',
-                    profile_photo: '\\xDEADBEEF',
                     about_user: 'test about',
                     user_stack: 'Full Stack'
                 }
@@ -161,7 +155,6 @@ describe('Users Endpoints', function() {
                     username: 'test username',
                     user_password: '11AAaab!',
                     email: 'incorrect',
-                    profile_photo: '\\xDEADBEEF',
                     about_user: 'test about',
                     user_stack: 'Full Stack'
                 }
@@ -178,7 +171,6 @@ describe('Users Endpoints', function() {
                     username: testUser.username,
                     user_password: '11AAaa!!',
                     email: 'test@test.com',
-                    profile_photo: '\\xDEADBEEF',
                     about_user: 'test about',
                     user_stack: 'Full Stack'
                 }
@@ -194,7 +186,6 @@ describe('Users Endpoints', function() {
                     username: 'test username',
                     user_password: '11AAaa!!',
                     email: testUser.email,
-                    profile_photo: '\\xDEADBEEF',
                     about_user: 'test about',
                     user_stack: 'Full Stack'
                 }
@@ -211,7 +202,6 @@ describe('Users Endpoints', function() {
                         username: 'test user_name',
                         user_password: '11AAaa!!',
                         email: 'test@test.com',
-                        profile_photo: '\\xDEADBEEF',
                         about_user: 'test about',
                         user_stack: 'Full Stack'
                     }
@@ -224,7 +214,6 @@ describe('Users Endpoints', function() {
                             expect(res.body.fullname).to.eql(newUser.fullname)
                             expect(res.body.username).to.eql(newUser.username)
                             expect(res.body.email).to.eql(newUser.email)
-                            // expect(res.body.profile_photo).to.have.property('profile_photo')
                             expect(res.body.about_user).to.eql(newUser.about_user)
                             expect(res.body.user_stack).to.eql(newUser.user_stack)
                             expect(res.body).to.not.have.property('user_password')
@@ -243,7 +232,6 @@ describe('Users Endpoints', function() {
                                     expect(row.fullname).to.eql(newUser.fullname)
                                     expect(row.username).to.eql(newUser.username)
                                     expect(row.email).to.eql(newUser.email)
-                                    // expect(row.profile_photo).to.eql(newUser.profile_photo)
                                     expect(row.about_user).to.eql(newUser.about_user)
                                     expect(row.user_stack).to.eql(newUser.user_stack)
                                     const expectedDate = new Date().toLocaleString('en', { timeZone: 'UTC' })

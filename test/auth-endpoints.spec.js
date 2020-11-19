@@ -79,7 +79,7 @@ describe('Auth Endpoints', function() {
                         fullname: testUser.fullname,
                         email: testUser.email,
                         about_user: testUser.about_user,
-                        user_stack: testUser.user_stack
+                        user_stack: testUser.user_stack 
                     },
                     process.env.JWT_SECRET,
                     {
