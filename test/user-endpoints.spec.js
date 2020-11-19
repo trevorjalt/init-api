@@ -59,6 +59,22 @@ describe('Users Endpoints', function() {
                 })
             })
 
+            it(`responds 400 'Username must be less than 20 characters' when long username`, () => {
+                const userLongUsername = {
+                    fullname: 'fullname',
+                    username: '*'.repeat(21),
+                    user_password: 'passPass1!',
+                    email: 'test@test.com',
+                    profile_photo: '\\xDEADBEEF',
+                    about_user: 'test about',
+                    user_stack: 'Full Stack'
+                }
+                return supertest(app)
+                    .post('/api/user')
+                    .send(userLongUsername)
+                    .expect(400, { error: `Username must be less than 20 characters` })
+            })
+
             it(`responds 400 'Password must be longer than 8 characters' when empty password`, () => {
                 const userShortPassword = {
                     fullname: 'fullname',
@@ -189,7 +205,7 @@ describe('Users Endpoints', function() {
             })
 
             context(`Happy path`, () => {
-                it(`responds 201, serialized user, storing bcryped password`, () => {
+                it(`responds 201, serialized user, storing bcrypted password`, () => {
                     const newUser = {
                         fullname: 'fullname',
                         username: 'test user_name',

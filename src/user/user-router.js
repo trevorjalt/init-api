@@ -23,7 +23,7 @@ async function registerUser(req, res, next) {
             username, 
             user_password, 
             email,
-            // profile_photo, 
+            profile_photo, 
             about_user,
             user_stack
         } = req.body
@@ -33,6 +33,11 @@ async function registerUser(req, res, next) {
                 return res.status(400).json({
                     error: `Missing '${field}' in request body`
                 })
+
+        const usernameError = await UserService.validateUsername(username)
+
+        if (usernameError)
+                return await res.status(400).json({ error: usernameError })
         
         const passwordError = await UserService.validatePassword(user_password)
 
@@ -67,7 +72,7 @@ async function registerUser(req, res, next) {
             username,
             user_password: hashedPassword,
             email,
-            // profile_photo,
+            profile_photo,
             about_user,
             user_stack,
             date_created: 'now()',
