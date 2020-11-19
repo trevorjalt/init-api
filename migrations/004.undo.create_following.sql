@@ -1,1 +1,1 @@
-DROP TABLE IF EXISTS fluent_posts;
+DROP TABLE IF EXISTS following;
