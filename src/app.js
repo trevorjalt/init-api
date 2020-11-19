@@ -4,13 +4,14 @@ const cors = require('cors')
 const helmet = require('helmet')
 const { NODE_ENV } = require('./config')
 const authRouter = require('./auth/auth-router')
+const avatarRouter = require('./avatar/avatar-router')
 const userRouter = require('./user/user-router')
 
 const app = express()
-const bodyParser = require('body-parser')
+// const bodyParser = require('body-parser')
 
-app.use(bodyParser.json({limit: '10mb', extended: true}))
-app.use(bodyParser.urlencoded({limit: '10mb', extended: true}))
+// app.use(bodyParser.json({limit: '10mb', extended: true}))
+// app.use(bodyParser.urlencoded({limit: '10mb', extended: true}))
 
 app.use(morgan((NODE_ENV === 'production') ? 'tiny' : 'common', {
     skip: () => NODE_ENV === 'test',
@@ -19,6 +20,7 @@ app.use(cors())
 app.use(helmet())
 
 app.use('/api/auth', authRouter)
+app.use('/api/avatar', avatarRouter)
 app.use('/api/user', userRouter)
 
 app.use(function errorHandler(error, req, res, next) {
