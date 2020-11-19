@@ -10,7 +10,6 @@ CREATE TABLE user_information (
     username TEXT NOT NULL UNIQUE,
     user_password TEXT NOT NULL,
     email TEXT NOT NULL UNIQUE,
-    profile_photo bytea NOT NULL,
     about_user TEXT NOT NULL,
     user_stack STACK_PREFERENCE NOT NULL,
     date_created TIMESTAMPTZ DEFAULT now() NOT NULL

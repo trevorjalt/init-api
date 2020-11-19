@@ -9,7 +9,6 @@ function makeUsersArray() {
             username: 'test-user-1',
             user_password: 'password',
             email: 'email@email.com',
-            profile_photo: '\\xDEADBEEF',
             about_user: 'test the things',
             user_stack: 'Backend',
             date_created: new Date().toISOString(),
@@ -20,7 +19,6 @@ function makeUsersArray() {
             username: 'test-user-2',
             user_password: 'password',
             email: 'email2@email.com',
-            profile_photo: '\\xDEADBEEF',
             about_user: 'test the things',
             user_stack: 'Frontend',
             date_created: new Date().toISOString(),
@@ -31,7 +29,6 @@ function makeUsersArray() {
             username: 'test-user-3',
             user_password: 'password',
             email: 'email3@email.com',
-            profile_photo: '\\xDEADBEEF',
             about_user: 'test the things',
             user_stack: 'Full Stack',
             date_created: new Date().toISOString(),
@@ -100,6 +97,7 @@ function cleanTables(db) {
         trx.raw(
             `TRUNCATE
                 user_information,
+                user_avatar,
                 init_posts,
                 following
             `
@@ -107,9 +105,11 @@ function cleanTables(db) {
         .then(() =>
             Promise.all([
                 trx.raw(`ALTER SEQUENCE user_information_id_seq minvalue 0 START WITH 1`),
+                trx.raw(`ALTER SEQUENCE user_avatar_id_seq minvalue 0 START WITH 1`),
                 trx.raw(`ALTER SEQUENCE init_posts_id_seq minvalue 0 START WITH 1`),
                 trx.raw(`ALTER SEQUENCE following_id_seq minvalue 0 START WITH 1`),
                 trx.raw(`SELECT setval('user_information_id_seq', 0)`),
+                trx.raw(`SELECT setval('user_avatar_id_seq', 0)`),
                 trx.raw(`SELECT setval('init_posts_id_seq', 0)`),
                 trx.raw(`SELECT setval('following_id_seq', 0)`),
             ])

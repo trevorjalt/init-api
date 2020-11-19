@@ -43,7 +43,6 @@ authRouter
               user_id: dbUser.id,
               fullname: dbUser.fullname,
               email: dbUser.email,
-            //   profile_photo: dbUser.profile_photo,
               about_user: dbUser.about_user,
               user_stack: dbUser.user_stack
           }
@@ -61,7 +60,6 @@ authRouter
             user_id: req.user.id,
             fullname: req.user.fullname,
             email: req.user.email,
-            // profile_photo: req.user.profile_photo,
             about_user: req.user.about_user,
             user_stack: req.user.user_stack
         }

@@ -27,6 +27,12 @@ const UserService = {
             .then(([user]) => user)
     },
 
+    validateUsername(username) {
+        if (username.length > 20) {
+            return 'Username must be less than 20 characters'
+        }
+    },
+
     validatePassword(user_password) {
         if (user_password.length < 8) {
             return 'Password must be longer than 8 characters'
@@ -60,7 +66,6 @@ const UserService = {
             fullname: xss(user.fullname),
             username: xss(user.username),
             email: xss(user.email),
-            profile_photo: user.profile_photo,
             about_user: xss(user.about_user),
             user_stack: user.user_stack,
             date_created: new Date(user.date_created),
@@ -75,7 +80,6 @@ const UserService = {
                 'usr.fullname',
                 'usr.username',
                 'usr.email',
-                'usr.profile_photo',
                 'usr.about_user',
                 'usr.user_stack',
                 'usr.date_created',

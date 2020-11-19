@@ -6,12 +6,12 @@ TRUNCATE
     following
     RESTART IDENTITY CASCADE;
 
-INSERT INTO user_information (fullname, username, user_password, email, profile_photo, about_user, user_stack)
+INSERT INTO user_information (fullname, username, user_password, email, about_user, user_stack)
 VALUES
-    ('Kakarot', 'Really Son Goku', '$2a$12$3yf.8jQ4tnfQPzARFkkjP.h12CHtJjz1xFJgPo3kTtWcZCswjPu3a', 'goku@gmail.com', '/hexadeci', 'I love to eat, fight, and that is about it!', 'Frontend'),
-    ('Vegeta', 'The Strongest Ever', '$2a$12$yLwyuRRlkhaATZ8PtuhX7eiWvJmmkWyvy74.yvBzJGLSZiGumrrDa', 'vegeta@gmail.com', '/hexadeci', 'I am the Prince of all Saiyans. What else do you need to know...', 'Full Stack'),
-    ('Gohan', 'ProfessorGo', '$2a$12$6jexarPNvKvKFx/stNvYF.l3bRfkLJiptPF5G5vbYg7gBhDWSKH.2', 'gohan@yahoo.com', '/hexadeci', 'Proud nerd and father.', 'Backend'),
-    ('Trunks', 'Time Traveller Trunks', '$2a$12$zh9chAG0bjcvniAQQuQ0quZ/7qD1ihon2Kk5Bz6N.YeVdCI1ES9Nu', 'trunks@yahoo.com', '/hexadeci', 'Although Androids weird me out, I still need to make a living.', 'Frontend');
+    ('Kakarot', 'Really Son Goku', '$2a$12$3yf.8jQ4tnfQPzARFkkjP.h12CHtJjz1xFJgPo3kTtWcZCswjPu3a', 'goku@gmail.com', 'I love to eat, fight, and that is about it!', 'Frontend'),
+    ('Vegeta', 'The Strongest Ever', '$2a$12$yLwyuRRlkhaATZ8PtuhX7eiWvJmmkWyvy74.yvBzJGLSZiGumrrDa', 'vegeta@gmail.com', 'I am the Prince of all Saiyans. What else do you need to know...', 'Full Stack'),
+    ('Gohan', 'ProfessorGo', '$2a$12$6jexarPNvKvKFx/stNvYF.l3bRfkLJiptPF5G5vbYg7gBhDWSKH.2', 'gohan@yahoo.com', 'Proud nerd and father.', 'Backend'),
+    ('Trunks', 'Time Traveller Trunks', '$2a$12$zh9chAG0bjcvniAQQuQ0quZ/7qD1ihon2Kk5Bz6N.YeVdCI1ES9Nu', 'trunks@yahoo.com', 'Although Androids weird me out, I still need to make a living.', 'Frontend');
 
 INSERT INTO init_posts (username, post_title, post_description, post_live_link, post_repository, post_image, tech_stack, user_id)
 VALUES
