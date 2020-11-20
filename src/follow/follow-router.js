@@ -47,37 +47,27 @@ followRouter
 
     .post(requireAuth, jsonParser, async (req, res, next) => {
         try {
-            const { follower_id } = req.body
 
-            if (follower_id === req.user.id) {
+            const { following_id } = req.body
+
+            if (following_id === req.user.id) {
                 return res
                     .status(400)
                     .json({ error: 'A user cannot follow themself' })
 
             }
 
-            const bool = await FollowService.isFollowing(
-                req.app.get('db'),
-                req.user.id,
-                follower_id
-            )
-            console.log('bool', bool)
-            if (bool === true) {
-                return res
-                    .status(400)
-                    .json({ error: 'A user cannot follow someone they already follow' })
-
-            }
-
             await FollowService.addFollow(
                 req.app.get('db'),
-                follower_id,
-                req.user.id
+                req.user.id,
+                following_id
+
             )
 
             return res
                 .status(204)
-                .json({ message: `User ${req.user.id} followed ${follower_id}` })
+                .json({ message: `User ${req.user.id} followed ${following_id}` })
+                .end()
 
         }
         catch (error) {
@@ -88,7 +78,7 @@ followRouter
     .delete(requireAuth, jsonParser, async (req, res, next) => {
 
         try {
-            ('request body from post', req.body)
+
             const { following_id } = req.body
 
             if (following_id === req.user.id) {
