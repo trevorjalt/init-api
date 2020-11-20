@@ -49,7 +49,7 @@ VALUES
     (4, 5),
     (4, 6);
 
-INSERT INTO blogful_comments (
+INSERT INTO init_comments (
   text,
   post_id,
   user_id
