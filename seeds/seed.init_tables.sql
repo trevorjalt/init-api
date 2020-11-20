@@ -27,7 +27,7 @@ VALUES
     ('Time Traveller Trunks', 'Buster Katana', 'Blueprint for 3D printing my old katana','https://buster-katana.vercel.app/', 'https://github.com/timetravellertrunks/katana', '/hexadeci', 'Python', 4),
     ('Time Traveller Trunks', 'Pro Port', 'Not really a big deal... just my killer portfolio', 'https://ttt-portfolio.vercel.app/', 'https://github.com/timetravellertrunks/portfolio', '/hexadeci', 'HTML, Javascript, CSS', 4);
 
-INSERT INTO following (following_id, user_id)
+INSERT INTO following (following_id, users_id)
 VALUES
     (2, 1),
     (3, 1),

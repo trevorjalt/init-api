@@ -1,6 +1,6 @@
 TRUNCATE
-    benchmark_set,
-    benchmark_exercise,
-    benchmark_workout,
-    benchmark_user
+    following,
+    init_posts,
+    user_avatar,
+    user_information
     RESTART IDENTITY CASCADE;

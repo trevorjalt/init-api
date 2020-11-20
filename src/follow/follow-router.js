@@ -7,7 +7,7 @@ const followRouter = express.Router()
 const jsonParser = express.json()
 
 const serializeFollow = arr => {
-
+    console.log('FROM SERIALIZE', arr)
     return arr.map(follow => {
         return {
             fullname: follow.fullname,
@@ -30,6 +30,7 @@ followRouter
 
             const followingUser = await FollowService.getAllFollowing(
                 req.app.get('db'), req.user.id)
+
 
             return await res
                 .status(200)
