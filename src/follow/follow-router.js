@@ -7,12 +7,13 @@ const followRouter = express.Router()
 const jsonParser = express.json()
 
 const serializeFollow = arr => {
-    console.log('FROM SERIALIZE', arr)
+
     return arr.map(follow => {
         return {
             fullname: follow.fullname,
             username: follow.username,
-            id: follow.id
+            id: follow.id,
+            avatar: follow.avatar
         }
     })
 }
@@ -30,7 +31,6 @@ followRouter
 
             const followingUser = await FollowService.getAllFollowing(
                 req.app.get('db'), req.user.id)
-
 
             return await res
                 .status(200)
@@ -110,3 +110,19 @@ followRouter
 
 
 module.exports = followRouter;
+
+
+
+
+// try {
+//     await AvatarService.getAvatar(
+//         req.app.get('db'),
+//         req.user.id
+//     )
+//         .then(console.log('RESPOnsE RESSPONSE', res))
+//         .then(rows => {
+//             res.json(rows)
+//         })
+// } catch(error) {
+//     console.log('Error downloading avatar', error)
+// }
