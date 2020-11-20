@@ -23,7 +23,7 @@ const CommentService = {
             }
         })
     },
-    insertComment(db, post_id, user_id, text) {
+    insertComment(db, user_id, post_id, text) {
         return db
             .insert({ post_id, user_id, text })
             .into('init_comments')
