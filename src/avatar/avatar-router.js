@@ -80,6 +80,7 @@ async function downloadAvatar(req, res) {
     try {
         await AvatarService.getAvatar(
             req.app.get('db'),
+            req.user.id
         )
             .then(console.log('RESPOnsE RESSPONSE', res))
             .then(rows => {

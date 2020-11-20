@@ -1,8 +1,11 @@
+const avatarRouter = require("./avatar-router")
+
 const AvatarService = {
-    getAvatar(db) {
+    getAvatar(db, id) {
         return db
-            .from('user_avatar')
+            .from('user_avatar AS avatar')
             .select('*')
+            .where('avatar.user_id', id)
     },
 
     insertAvatar(db, uploadData) {
