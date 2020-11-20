@@ -3,6 +3,7 @@ const AvatarService = {
         return db
             .from('user_avatar')
             .select('*')
+            .where('avatar.user_id', id)
     },
 
     insertAvatar(db, uploadData) {

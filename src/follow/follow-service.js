@@ -62,10 +62,10 @@ const FollowService = {
         }
     },
 
-    async addFollower(db, user_id, follower_id) {
+    async addFollow(db, user_id, following_id) {
         try {
             return await db
-                .insert({ user_id, follower_id })
+                .insert({ user_id, following_id })
                 .into('following')
         }
         catch {
@@ -73,13 +73,30 @@ const FollowService = {
         }
     },
 
-    async removeFollower(db, user_id, follower_id) {
+    async removeFollow(db, user_id, following_id) {
         try {
+
             return await db
                 .from('following')
                 .where({ user_id })
-                .andWhere({ follower_id })
+                .andWhere({ following_id })
                 .del()
+        }
+        catch {
+            return err => console.log(err)
+        }
+    },
+
+    async isFollowing(db, user_id, following_id) {
+        try {
+            const bool = await db
+                .select('*')
+                .from('following')
+                .where({ user_id })
+                .andWhere({ following_id })
+
+            console.log('BOOL', bool)
+            return bool ? true : false
         }
         catch {
             return err => console.log(err)
