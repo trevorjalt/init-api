@@ -7,6 +7,7 @@ const authRouter = require('./auth/auth-router')
 const avatarRouter = require('./avatar/avatar-router')
 const userRouter = require('./user/user-router')
 const followRouter = require('./follow/follow-router')
+const postRouter = require('./post/init-post-router');
 
 const app = express()
 // const bodyParser = require('body-parser')
@@ -24,6 +25,7 @@ app.use('/api/auth', authRouter)
 app.use('/api/avatar', avatarRouter)
 app.use('/api/user', userRouter)
 app.use('/api/follow', followRouter)
+app.use('/api/post', postRouter)
 
 app.use(function errorHandler(error, req, res, next) {
     let response;
