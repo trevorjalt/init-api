@@ -11,8 +11,11 @@ VALUES
     ('Kakarot', 'Really Son Goku', '$2a$12$3yf.8jQ4tnfQPzARFkkjP.h12CHtJjz1xFJgPo3kTtWcZCswjPu3a', 'goku@gmail.com', 'I love to eat, fight, and that is about it!', 'Frontend'),
     ('Vegeta', 'The Strongest Ever', '$2a$12$yLwyuRRlkhaATZ8PtuhX7eiWvJmmkWyvy74.yvBzJGLSZiGumrrDa', 'vegeta@gmail.com', 'I am the Prince of all Saiyans. What else do you need to know...', 'Full Stack'),
     ('Gohan', 'ProfessorGo', '$2a$12$6jexarPNvKvKFx/stNvYF.l3bRfkLJiptPF5G5vbYg7gBhDWSKH.2', 'gohan@yahoo.com', 'Proud nerd and father.', 'Backend'),
-    ('Trunks', 'Time Traveller Trunks', '$2a$12$zh9chAG0bjcvniAQQuQ0quZ/7qD1ihon2Kk5Bz6N.YeVdCI1ES9Nu', 'trunks@yahoo.com', 'Although Androids weird me out, I still need to make a living.', 'Frontend');
-
+    ('Trunks', 'Time Traveller Trunks', '$2a$12$zh9chAG0bjcvniAQQuQ0quZ/7qD1ihon2Kk5Bz6N.YeVdCI1ES9Nu', 'trunks@yahoo.com', 'Although Androids weird me out, I still need to make a living.', 'Frontend'),
+    ('Test user 1', 'test1', '$2a$12$zh9chAG0bjcvniAQQuQ0quZ/7qD1ihon2Kk5Bz6N.YeVdCI1ES9Nu', 'trunks1@yahoo.com', 'Although Androids weird me out, I still need to make a living.', 'Frontend'),
+    ('Test user 2', 'test2', '$2a$12$zh9chAG0bjcvniAQQuQ0quZ/7qD1ihon2Kk5Bz6N.YeVdCI1ES9Nu', 'trunks2@yahoo.com', 'Although Androids weird me out, I still need to make a living.', 'Frontend'),
+    ('Test user 3', 'test3', '$2a$12$zh9chAG0bjcvniAQQuQ0quZ/7qD1ihon2Kk5Bz6N.YeVdCI1ES9Nu', 'trunks3@yahoo.com', 'Although Androids weird me out, I still need to make a living.', 'Frontend'),
+    ('Test user 4', 'test4', '$2a$12$zh9chAG0bjcvniAQQuQ0quZ/7qD1ihon2Kk5Bz6N.YeVdCI1ES9Nu', 'trunks4@yahoo.com', 'Although Androids weird me out, I still need to make a living.', 'Frontend');
 INSERT INTO init_posts (username, post_title, post_description, post_live_link, post_repository, post_image, tech_stack, user_id)
 VALUES
     ('Really Son Goku', 'My Computer', 'Here is the sweet machine I use', 'https://gs-computer.vercel.app/', 'https://github.com/reallysongoku/compuuuter', '/hexadeci', 'Sony A6000', 1),
@@ -24,21 +27,26 @@ VALUES
     ('Time Traveller Trunks', 'Buster Katana', 'Blueprint for 3D printing my old katana','https://buster-katana.vercel.app/', 'https://github.com/timetravellertrunks/katana', '/hexadeci', 'Python', 4),
     ('Time Traveller Trunks', 'Pro Port', 'Not really a big deal... just my killer portfolio', 'https://ttt-portfolio.vercel.app/', 'https://github.com/timetravellertrunks/portfolio', '/hexadeci', 'HTML, Javascript, CSS', 4);
 
-INSERT INTO following (following_id, user_id)
+INSERT INTO following (following_id, users_id)
 VALUES
-    (1, 1),
     (2, 1),
     (3, 1),
     (4, 1),
-    (1, 2),
-    (2, 2),
+   
+  
     (4, 2),
-    (1, 3),
-    (2, 3),
-    (3, 3),
-    (4, 3),
+    (1, 2),
+    (3, 2),
+  
+    (1, 4),
     (2, 4),
     (3, 4),
-    (4, 4);
+    (6, 4),
+    (7, 4),
+    (8, 4),
+    (5, 4),
+
+    (4, 5),
+    (4, 6);
 
 COMMIT;
