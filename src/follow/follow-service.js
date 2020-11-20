@@ -14,11 +14,17 @@ const FollowService = {
                 follows.map(async f => {
                     try {
                         const { users_id } = f
-                        console.log(f)
-                        const [followData] = await db
+                        let [followData] = await db
                             .select('fullname', 'username', 'id')
                             .from('user_information')
                             .where({ id: users_id })
+
+                        /*HOW CAN I GET THIS TO WORK???? ADDED TO OBJECT AND NOT WORKING*/
+                        let avatar = await AvatarService.getAvatar(db, 1)
+                        console.log(avatar)
+                        // let { img_type, img_file } = avatar
+                        // console.log('AVATAR RESPONSE', img_type, img_file)
+
 
                         return followData
                     }
@@ -26,7 +32,6 @@ const FollowService = {
                         return err => console.log(err);
                     }
                 }))
-            console.log('FOLLOWS', followsData)
             return followsData;
         }
         catch {
@@ -43,7 +48,7 @@ const FollowService = {
 
             const followingsData = await Promise.all(
                 following.map(async f => {
-                    console.log(f)
+
                     const { following_id } = f
 
                     const [followingData] = await db
@@ -61,12 +66,22 @@ const FollowService = {
         }
     },
 
-    /* REFACTOR TO USE ASYNC AWAIT*/
-    addFollow(db, user, following) {
-        return db
-            .insert({ users_id: following, following_id: user })
-            .into('following')
-            .catch(err => console.log(err))
+    async addFollow(db, user, following) {
+        const isPresent = await db
+            .select('*')
+            .from('following')
+            .where({ users_id: following, following_id: user })
+
+        if (!isPresent.length) {
+            return db
+                .insert({ users_id: following, following_id: user })
+                .into('following')
+                .catch(err => console.log(err))
+        }
+        else {
+            return { error: 'user is already following' }
+        }
+
     },
 
     async removeFollow(db, users_id, following_id) {
@@ -82,6 +97,22 @@ const FollowService = {
             return err => console.log(err)
         }
     },
+
+    async countFollowedbyUser(db, user_id) {
+        return db
+            .count('users_id')
+            .from('following')
+            .where({ following_id: user_id })
+    },
+
+    async countFollowingUser(db, users_id) {
+        return db
+            .count('following_id')
+            .from('following')
+            .where({ users_id })
+    }
+
+
 
 }
 
