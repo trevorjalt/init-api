@@ -20,6 +20,7 @@ const CommentService = {
                             username: user.username,
                             id: c.id,
                             text: c.text,
+                            user_id: c.user_id,
                             date_created: c.date_created
                         }
 
