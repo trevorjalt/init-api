@@ -7,6 +7,7 @@ const jsonBodyParser = express.json();
 
 
 const serializePost = (post) => {
+
     return {
         post_id: post.id,
         title: post.post_title,
@@ -71,6 +72,8 @@ initPostRouter
                 req.app.get('db'),
                 req.params.post_id
             )
+
+            console.log(post)
 
             return res
                 .status(200)

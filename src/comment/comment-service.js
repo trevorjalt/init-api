@@ -7,6 +7,7 @@ const CommentService = {
                 .from('init_comments')
                 .select('id', 'text', 'user_id', 'date_created')
                 .where({ post_id })
+                .orderBy('date_created', 'desc')
 
             const fullComments = await Promise.all(
                 comments.map(async c => {
