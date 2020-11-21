@@ -7,8 +7,6 @@ const jsonBodyParser = express.json();
 
 
 const serializePost = (post) => {
-
-
     return {
         post_id: post.id,
         title: post.post_title,

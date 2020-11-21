@@ -4,22 +4,43 @@ const InitPostService = {
   },
 
   async getPostById(db, post_id) {
-    const post = await db
-      .select('*')
-      .from('init_posts')
-      .where({ id: post_id })
+
+    try {
+      return await db
+        .select('*')
+        .from('init_posts')
+        .where({ id: post_id })
+        .then(async p => {
+          const [post] = p
+          try {
+            const user = await db
+              .select('*')
+              .from('user_information')
+              .where({ id: post.user_id })
+
+            return {
+              ...user,
+              ...post
+            }
+          }
+          catch (error) {
+            return console.log(error)
+          }
 
 
-    const user = await db
-      .select('username', 'fullname')
-      .from('user_information')
-      .where({ id: post.user_id })
+        })
 
-
-    return {
-      ...user,
-      ...post
     }
+    catch (error) {
+      return console.log(error)
+    }
+
+
+
+
+
+
+
   }
 };
 
