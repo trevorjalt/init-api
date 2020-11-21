@@ -1,6 +1,6 @@
 const express = require('express')
 const xss = require('xss')
-const CommentService = require('./follow-comment')
+const CommentService = require('./comment-service')
 const { requireAuth } = require('../middleware/jwt-auth');
 
 
@@ -14,25 +14,23 @@ const serializeComments = comments => {
             text: xss(comment.text),
             user_id: comment.user_id,
             date_created: comment.date_created,
-            avatar: comment.avatar,
-            username: comment.user_name
+            username: comment.username
 
         }
-    })
+    });
 }
 
 /*ASK TREVOR WHERE I SHOULD RUN THE XSS ON THE COMMENT TEXT. BEFORE PUTTING IN DB??*/
 
 commentRouter
-    .route('/')
-    .get(requireAuth, jsonParser, async (req, res, next) => {
-        const { post_id } = req.body
+    .route('/:post_id')
+    .get(requireAuth, async (req, res, next) => {
+
         try {
             const comments = await CommentService.getCommentsForPost(
                 req.app.get('db'),
-                post_id
+                req.params.post_id
             )
-
             return res
                 .status(200)
                 .json(serializeComments(comments))
@@ -71,3 +69,5 @@ commentRouter
 
 
 
+
+module.exports = commentRouter;

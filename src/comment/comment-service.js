@@ -1,27 +1,42 @@
-const AvatarService = require(AvatarService);
+const AvatarService = require('../avatar/avatar-service');
 
 const CommentService = {
     async getCommentsForPost(db, post_id) {
-        const comments = await db
-            .from('init_comments')
-            .select('id', 'text', 'user_id', 'date_created')
-            .where({ post_id })
+        try {
+            const comments = await db
+                .from('init_comments')
+                .select('id', 'text', 'user_id', 'date_created')
+                .where({ post_id })
 
-        return comments.map(c => {
+            const fullComments = await Promise.all(
+                comments.map(async c => {
+                    try {
+                        const [user] = await db
+                            .select('username')
+                            .from('user_information')
+                            .where({ id: c.user_id })
 
-            const username = await db
-                .select('username')
-                .from('user_information')
-                .where({ id: c.user_id })
+                        return {
+                            username: user.username,
+                            id: c.id,
+                            text: c.text,
+                            date_created: c.date_created
+                        }
 
-            const [avatar] = AvatarService.getAvatar(db, c.user_id)
+                    }
 
-            return {
-                ...c,
-                username,
-                avatar
-            }
-        })
+                    catch (error) {
+                        return console.log(error)
+                    }
+                }))
+
+            return fullComments;
+
+        }
+        catch (error) {
+            return console.log(error)
+        }
+
     },
     insertComment(db, user_id, post_id, text) {
         return db
@@ -38,4 +53,4 @@ const CommentService = {
 }
 
 
-module.exports(CommentService)
+module.exports = CommentService;
