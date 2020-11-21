@@ -18,6 +18,21 @@ const AvatarService = {
             .then(([data]) => data)
     },
 
+    getById(db, id) {
+        return db
+            .from('user_avatar AS avatar')
+            .select('*')
+            .where('avatar.id', id)
+            // .first()
+    },
+
+    updateAvatar(db, id, newAvatarFields) {
+        return db
+            .from('user_avatar')
+            .where({ id })
+            .update(newAvatarFields)
+    }
+
     // serializeAvatar(avatar) {
     //     return {
     //         id: avatar.id,

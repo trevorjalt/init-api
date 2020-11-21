@@ -10,10 +10,6 @@ const followRouter = require('./follow/follow-router')
 const postRouter = require('./post/init-post-router');
 
 const app = express()
-// const bodyParser = require('body-parser')
-
-// app.use(bodyParser.json({limit: '10mb', extended: true}))
-// app.use(bodyParser.urlencoded({limit: '10mb', extended: true}))
 
 app.use(morgan((NODE_ENV === 'production') ? 'tiny' : 'common', {
     skip: () => NODE_ENV === 'test',

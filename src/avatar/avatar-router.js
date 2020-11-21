@@ -30,14 +30,18 @@ avatarRouter
     .post(requireAuth, [upload.single('imageRequest')], uploadAvatar)
 
 avatarRouter
+    .route('/upload/:avatar_id')
+    .patch(requireAuth, verifyAvatarExists, [upload.single('imageRequest')], updateAvatar)
+
+avatarRouter
     .route('/download')
     .get(requireAuth, downloadAvatar)
 
 async function uploadAvatar(req, res, next) {
     try { 
         
-        console.log('REQUEST REQUEST', req)
-        console.log('FILE FILE', req.file)
+        // console.log('REQUEST REQUEST', req)
+        // console.log('FILE FILE', req.file)
         
         const imgData = fs.readFileSync(req.file.path)
 
@@ -69,6 +73,49 @@ async function uploadAvatar(req, res, next) {
     }
 }
 
+async function updateAvatar(req, res, next) {
+    try { 
+        
+        // console.log('REQUEST REQUEST', req)
+        // console.log('FILE FILE', req.file)
+        
+        const imgData = fs.readFileSync(req.file.path)
+
+        const updateData = {
+            name: req.body.someText,
+            img_type: req.file.mimetype,
+            img_file: imgData,
+            date_created: new Date(),
+        }
+
+        const numberOfValues = Object.values(updateData).filter(Boolean).length
+        if (numberOfValues === 0)
+            return await res.status(400).json({
+                error: { message: `Invalid request`}
+        })
+
+
+        const rows = await AvatarService.updateAvatar(
+            req.app.get('db'),
+            req.params.avatar_id,
+            updateData
+        )
+
+        console.log(rows[0]);
+
+        fs.unlink(req.file.path, function(err) {
+            if (err) {
+                next(err)
+                return
+            }
+            console.log('Temp Image Deleted')
+            res.status(204).end()
+        })
+    } catch(error) {
+        next(error)
+    }
+}
+
 async function downloadAvatar(req, res, next) {
     try {
         const rows = await AvatarService.getAvatar(
@@ -76,38 +123,32 @@ async function downloadAvatar(req, res, next) {
             req.user.id
         )
 
-        console.log('RESPONSE', res)
         res.json(rows)
     } catch(error) {
         next(error)
     }
 }
 
-// async function verifyAvatarExists(req, res, next) {
-//     try {
-//         const currentAvatar = await AvatarService.getAvatar(
-//             req.app.get('db'),
-//             req.user.id
-//         )
+async function verifyAvatarExists(req, res, next) {
+    try {
+        console.log('PARAMS', req.params.avatar_id)
+        const currentAvatar = await AvatarService.getById(
+            req.app.get('db'),
+            req.params.avatar_id
+        )
 
-//         const avatarRequest = req
-//         if (!currentAvatar) {
-//            next(uploadAvatar(avatarRequest))
-//         }
+        if(!currentAvatar)
+            return await res.status(404).json({
+                error: { message:`Avatar not found` }
+            })
+
+        res.avatar = currentAvatar
+
+        next()
         
-//     } catch (error) {
-//         next(error)
-//     }
-// }
-
-// async function getUser(req, res, next) {
-//     try {
-//         await res.json(UserService.serializeUser(res.user))
-
-//         next()
-//     } catch (error) {
-//         next(error)
-//     }
-// }
+    } catch (error) {
+        next(error)
+    }
+}
 
 module.exports = avatarRouter
