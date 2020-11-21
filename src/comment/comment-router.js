@@ -46,19 +46,18 @@ commentRouter
 
     .post(requireAuth, jsonParser, async (req, res, next) => {
         try {
-            const { comment_text, post_id } = req.body;
-            const text = xss(comment_text);
+            let { text } = req.body;
+            text = xss(text);
 
             await CommentService.insertComment(
                 req.app.get('db'),
                 req.user.id,
-                post_id,
+                req.params.post_id,
                 text
             )
 
             return res
                 .status(204)
-                .json({ message: 'comment posted' })
                 .end()
         }
 
