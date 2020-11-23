@@ -12,8 +12,7 @@ const serializeFollow = arr => {
         return {
             fullname: follow.fullname,
             username: follow.username,
-            id: follow.id,
-            avatar: follow.avatar
+            id: follow.id
         }
     })
 }
@@ -58,12 +57,17 @@ followRouter
 
             }
 
-            await FollowService.addFollow(
+            const add = await FollowService.addFollow(
                 req.app.get('db'),
                 req.user.id,
                 following_id
-
             )
+
+            if (!add) {
+                return res
+                    .status(400)
+                    .json({ error: 'user is already following' })
+            }
 
             return res
                 .status(204)
@@ -101,6 +105,7 @@ followRouter
                 .end()
         }
         catch (error) {
+
             next(error)
         }
     })

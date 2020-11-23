@@ -8,7 +8,6 @@ const FollowService = {
                 .select('users_id')
                 .from('following')
                 .where({ following_id: user_id })
-
             const followsData = await Promise.all(
 
                 follows.map(async f => {
@@ -18,14 +17,6 @@ const FollowService = {
                             .select('fullname', 'username', 'id')
                             .from('user_information')
                             .where({ id: users_id })
-
-                        /*HOW CAN I GET THIS TO WORK???? ADDED TO OBJECT AND NOT WORKING*/
-                        let avatar = await AvatarService.getAvatar(db, 1)
-                        console.log(avatar)
-                        // let { img_type, img_file } = avatar
-                        // console.log('AVATAR RESPONSE', img_type, img_file)
-
-
                         return followData
                     }
                     catch {
@@ -45,7 +36,6 @@ const FollowService = {
                 .select('following_id')
                 .from('following')
                 .where({ users_id })
-
             const followingsData = await Promise.all(
                 following.map(async f => {
 
@@ -79,7 +69,7 @@ const FollowService = {
                 .catch(err => console.log(err))
         }
         else {
-            return { error: 'user is already following' }
+            return null;
         }
 
     },
