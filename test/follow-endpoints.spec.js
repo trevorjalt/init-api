@@ -1,5 +1,4 @@
 const knex = require('knex')
-const bcrypt = require('bcryptjs')
 const app = require('../src/app')
 const helpers = require('./test-helpers')
 const { expect } = require('chai')
@@ -74,7 +73,7 @@ describe.only('Follow Endpoints', function () {
         })
     })
 
-    describe.only(`POST /api/follow`, () => {
+    describe(`POST /api/follow`, () => {
 
         beforeEach('insert users', () =>
             helpers.seedUsers(
@@ -122,23 +121,36 @@ describe.only('Follow Endpoints', function () {
     })
 
     describe(`DELETE /api/follow`, () => {
-        //beforeEEach
-        //seed users, followers, following
-        //make fake followers table
-        //have actual followers
+        beforeEach('insert users', () =>
+            helpers.seedUsers(
+                db,
+                testUsers,
+            )
+        )
 
+        describe('Given that one user is following another', () => {
 
+            beforeEach('Seed followers', () => helpers.seedFollowers(db, testFollowers))
 
-        //responds with 400 if user is not following user
-        //user [0] does not follow user[2]
+            it('Responds with 201 and removes row from table', () => {
+                return supertest(app)
+                    .delete(`/api/follow`)
+                    .set('Authorization', helpers.makeAuthHeader(testUser))
+                    .send({ following_id: testUsers[1].id })
+                    .expect(204)
+            })
+        })
 
-        //user [0] follows usr [1]
-        //responds with 200 if user is following
-        //removes line from table
+        describe('Given that a user is not following another user', () => {
 
-
-
-
+            it('Responds with 400', () => {
+                return supertest(app)
+                    .delete(`/api/follow`)
+                    .set('Authorization', helpers.makeAuthHeader(testUser))
+                    .send({ following_id: 5 })
+                    .expect(400)
+            })
+        })
 
     })
 

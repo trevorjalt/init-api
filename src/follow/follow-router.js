@@ -47,33 +47,38 @@ followRouter
 
     .post(requireAuth, jsonParser, async (req, res, next) => {
         try {
-
             const { following_id } = req.body
 
             if (following_id === req.user.id) {
                 return res
                     .status(400)
                     .json({ error: 'A user cannot follow themself' })
-
             }
 
-            const add = await FollowService.addFollow(
+            let isFollowing = await FollowService.isFollowing(
                 req.app.get('db'),
                 req.user.id,
                 following_id
             )
 
-            if (!add) {
+            if (isFollowing) {
                 return res
                     .status(400)
                     .json({ error: 'user is already following' })
             }
 
-            return res
-                .status(204)
-                .json({ message: `User ${req.user.id} followed ${following_id}` })
-                .end()
+            else {
+                await FollowService.addFollow(
+                    req.app.get('db'),
+                    req.user.id,
+                    following_id
+                )
+                return res
+                    .status(204)
+                    .json({ message: `User ${req.user.id} followed ${following_id}` })
+                    .end()
 
+            }
         }
         catch (error) {
             next(error)
@@ -81,9 +86,7 @@ followRouter
     })
 
     .delete(requireAuth, jsonParser, async (req, res, next) => {
-
         try {
-
             const { following_id } = req.body
 
             if (following_id === req.user.id) {
@@ -93,16 +96,28 @@ followRouter
                     .end()
             }
 
-            await FollowService.removeFollow(
+            const isFollowing = await FollowService.isFollowing(
                 req.app.get('db'),
                 following_id,
                 req.user.id
             )
 
-            return res
-                .status(201)
-                .json({ message: `${req.user.id} unfollowed ${following_id}` })
-                .end()
+            if (!isFollowing) {
+                return res
+                    .status(400)
+                    .end()
+            }
+
+            else {
+                await FollowService.removeFollow(
+                    req.app.get('db'),
+                    following_id,
+                    req.user.id
+                )
+                return res
+                    .status(204)
+                    .json({ message: `${req.user.id} unfollowed ${following_id}` })
+            }
         }
         catch (error) {
 
@@ -115,19 +130,3 @@ followRouter
 
 
 module.exports = followRouter;
-
-
-
-
-// try {
-//     await AvatarService.getAvatar(
-//         req.app.get('db'),
-//         req.user.id
-//     )
-//         .then(console.log('RESPOnsE RESSPONSE', res))
-//         .then(rows => {
-//             res.json(rows)
-//         })
-// } catch(error) {
-//     console.log('Error downloading avatar', error)
-// }

@@ -56,29 +56,18 @@ const FollowService = {
         }
     },
 
-    async addFollow(db, user, following) {
-        const isPresent = await db
-            .select('*')
-            .from('following')
-            .where({ users_id: following, following_id: user })
+    addFollow(db, user, following) {
+        return db
+            .insert({ users_id: following, following_id: user })
+            .into('following')
+            .catch(err => console.log(err))
 
-        if (!isPresent.length) {
-
-            return db
-                .insert({ users_id: following, following_id: user })
-                .into('following')
-                .catch(err => console.log(err))
-        }
-        else {
-            return null;
-        }
 
     },
 
-    async removeFollow(db, users_id, following_id) {
+    removeFollow(db, users_id, following_id) {
         try {
-
-            return await db
+            return db
                 .from('following')
                 .where({ users_id })
                 .andWhere({ following_id })
@@ -87,6 +76,16 @@ const FollowService = {
         catch {
             return err => console.log(err)
         }
+    },
+
+    async isFollowing(db, user, following) {
+        const res = await db
+            .select('*')
+            .from('following')
+            .where({ users_id: user, following_id: following })
+
+        return res.length ? true : false
+
     },
 
     async countFollowedbyUser(db, user_id) {
