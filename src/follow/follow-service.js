@@ -63,6 +63,7 @@ const FollowService = {
             .where({ users_id: following, following_id: user })
 
         if (!isPresent.length) {
+
             return db
                 .insert({ users_id: following, following_id: user })
                 .into('following')

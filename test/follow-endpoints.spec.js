@@ -38,7 +38,7 @@ describe.only('Follow Endpoints', function () {
         )
 
         describe('Given that a user has no followers and is following no users', function () {
-            it(`Responds with 200 and an object with two X Y with empty arrays for values`, async () => {
+            it(`Responds with 200 and an object with two keys, followedByUser and followingUser, with empty arrays for values`, async () => {
                 let res = await supertest(app)
                     .get(`/api/follow`)
                     .set('Authorization', helpers.makeAuthHeader(testUser))
@@ -52,6 +52,7 @@ describe.only('Follow Endpoints', function () {
         })
 
         describe('Given that a user has followers and is following other users', function () {
+
             beforeEach('Seed followers', () => helpers.seedFollowers(db, testFollowers))
 
             it(`Responds with 200 and an object with keys followedByUser and followingUser with an array of objects as values`, async () => {
@@ -73,19 +74,50 @@ describe.only('Follow Endpoints', function () {
         })
     })
 
-    describe(`POST /api/follow`, () => {
-        //beforeEach
-        //seed users, following, followers
+    describe.only(`POST /api/follow`, () => {
 
-        //responds with 400 if user_id == id
+        beforeEach('insert users', () =>
+            helpers.seedUsers(
+                db,
+                testUsers,
+            )
+        )
 
-        //user [0] follows user [1]
-        //responds with 200 if not following
-        //if follower is valid user and not following
-        //and adds line to followers table
+        describe('Given that a user is not already following another user', () => {
 
-        //user [0] follows user [1]
-        //responds with 400 if user already follows
+            it('Responds with a 200 and creates new row in followers table', () => {
+                return supertest(app)
+                    .post(`/api/follow`)
+                    .set('Authorization', helpers.makeAuthHeader(testUser))
+                    .send({ following_id: testUsers[2].id })
+                    .expect(204)
+                    .catch(err => console.log(err))
+            })
+
+            it('Responds with 400 if follower_id is the id of the current user', () => {
+                return supertest(app)
+                    .post(`/api/follow`)
+                    .set('Authorization', helpers.makeAuthHeader(testUser))
+                    .send({ following_id: testUser.id })
+                    .expect(400)
+                    .catch(err => console.log(err))
+
+            })
+        })
+
+        describe('Given that a user is already following a user', () => {
+
+            beforeEach('Seed followers', () => helpers.seedFollowers(db, testFollowers))
+
+            it('Responds with a 400', () => {
+                return supertest(app)
+                    .post(`/api/follow`)
+                    .set('Authorization', helpers.makeAuthHeader(testUser))
+                    .send({ following_id: testUsers[1].id })
+                    .expect(400)
+                    .catch(err => console.log(err))
+            })
+        })
 
     })
 
