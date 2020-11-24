@@ -57,11 +57,12 @@ followRouter
 
             let isFollowing = await FollowService.isFollowing(
                 req.app.get('db'),
-                req.user.id,
-                following_id
+                following_id,
+                req.user.id
             )
 
             if (isFollowing) {
+                console.log('turned back because already following')
                 return res
                     .status(400)
                     .json({ error: 'user is already following' })
@@ -73,10 +74,15 @@ followRouter
                     req.user.id,
                     following_id
                 )
+
+                const following = await FollowService.getAllFollows(
+                    req.app.get('db'),
+                    req.user.id)
+
                 return res
-                    .status(204)
-                    .json({ message: `User ${req.user.id} followed ${following_id}` })
-                    .end()
+                    .status(200)
+                    .json(following)
+
 
             }
         }
@@ -93,7 +99,7 @@ followRouter
                 return res
                     .status(400)
                     .json({ error: 'A user cannot unfollow themself' })
-                    .end()
+
             }
 
             const isFollowing = await FollowService.isFollowing(
@@ -114,9 +120,15 @@ followRouter
                     following_id,
                     req.user.id
                 )
+                const following = await FollowService.getAllFollows(
+                    req.app.get('db'),
+                    req.user.id)
+
+
                 return res
-                    .status(204)
-                    .json({ message: `${req.user.id} unfollowed ${following_id}` })
+                    .status(200)
+                    .json(serializeFollow(following))
+
             }
         }
         catch (error) {

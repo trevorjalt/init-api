@@ -61,8 +61,6 @@ const FollowService = {
             .insert({ users_id: following, following_id: user })
             .into('following')
             .catch(err => console.log(err))
-
-
     },
 
     removeFollow(db, users_id, following_id) {

@@ -131,3 +131,34 @@ INSERT INTO init_comments (
   );
 
 COMMIT;
+
+INSERT INTO init_follows ( username, avatar_id, followed_id, activity_message)
+VALUES
+('Really Son Goku', 1, 2, 'has began to follow you'),
+('The Strongest Ever', 2, 3, 'has began to follow you'),
+('ProfessorGo', 3, 4, 'has began to follow you'),
+('Time Traveller Trunks', 4, 1, 'has began to follow you'),
+('Really Son Goku', 1, 3, 'has began to follow you'),
+('The Strongest Ever', 2, 4, 'has began to follow you'),
+('ProfessorGo', 3, 1, 'has began to follow you'),
+('Time Traveller Trunks', 4, 2, 'has began to follow you'),
+('Really Son Goku', 1, 4, 'has began to follow you'),
+('The Strongest Ever', 2, 1, 'has began to follow you'),
+('ProfessorGo', 3, 2, 'has began to follow you'),
+('Time Traveller Trunks', 4, 3, 'has began to follow you'),
+('test1', 5, 2, 'has began to follow you'),
+('test2', 6, 3, 'has began to follow you'),
+('test3', 7, 4, 'has began to follow you'),
+('test4', 8, 1, 'has began to follow you'),
+('test1', 5, 3, 'has began to follow you'),
+('test2', 6, 4, 'has began to follow you'),
+('test3', 7, 1, 'has began to follow you'),
+('test4', 8, 2, 'has began to follow you'),
+('test1', 5, 4, 'has began to follow you'),
+('test2', 6, 1, 'has began to follow you'),
+('test3', 7, 2, 'has began to follow you'),
+('test4', 8, 3, 'has began to follow you');
+
+COMMIT;
+
+

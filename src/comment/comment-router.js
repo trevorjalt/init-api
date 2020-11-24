@@ -65,7 +65,6 @@ commentRouter
                 .status(201)
                 .json(serializeComments(comm))
         }
-
         catch (error) {
             next(error)
         }
