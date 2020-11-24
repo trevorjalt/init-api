@@ -45,6 +45,12 @@ const CommentService = {
             .insert({ post_id, user_id, text })
             .into('init_comments')
             .catch(err => console.log(err))
+    },
+    makeCommentNotification(db, user_id, post_id, text) {
+        //get users's id from post_id
+        //save line in notifications table for that user
+        //including comment text
+        //user name of commenter
     }
 
 

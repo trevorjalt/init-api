@@ -100,6 +100,13 @@ const FollowService = {
             .count('following_id')
             .from('following')
             .where({ users_id })
+    },
+    makeFollowNotification(db, user_id, following_id) {
+        //no message
+        //make notification in table for following_id
+        //type = follow
+        //store user_id
+
     }
 
 
