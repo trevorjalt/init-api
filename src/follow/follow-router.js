@@ -7,7 +7,7 @@ const followRouter = express.Router()
 const jsonParser = express.json()
 
 const serializeFollow = arr => {
-    console.log('FROM SERIALIZE', arr)
+
     return arr.map(follow => {
         return {
             fullname: follow.fullname,
@@ -31,7 +31,6 @@ followRouter
             const followingUser = await FollowService.getAllFollowing(
                 req.app.get('db'), req.user.id)
 
-
             return await res
                 .status(200)
                 .json({
@@ -48,28 +47,38 @@ followRouter
 
     .post(requireAuth, jsonParser, async (req, res, next) => {
         try {
-
             const { following_id } = req.body
 
             if (following_id === req.user.id) {
                 return res
                     .status(400)
                     .json({ error: 'A user cannot follow themself' })
-
             }
 
-            await FollowService.addFollow(
+            let isFollowing = await FollowService.isFollowing(
                 req.app.get('db'),
                 req.user.id,
                 following_id
-
             )
 
-            return res
-                .status(204)
-                .json({ message: `User ${req.user.id} followed ${following_id}` })
-                .end()
+            if (isFollowing) {
+                return res
+                    .status(400)
+                    .json({ error: 'user is already following' })
+            }
 
+            else {
+                await FollowService.addFollow(
+                    req.app.get('db'),
+                    req.user.id,
+                    following_id
+                )
+                return res
+                    .status(204)
+                    .json({ message: `User ${req.user.id} followed ${following_id}` })
+                    .end()
+
+            }
         }
         catch (error) {
             next(error)
@@ -77,9 +86,7 @@ followRouter
     })
 
     .delete(requireAuth, jsonParser, async (req, res, next) => {
-
         try {
-
             const { following_id } = req.body
 
             if (following_id === req.user.id) {
@@ -89,18 +96,31 @@ followRouter
                     .end()
             }
 
-            await FollowService.removeFollow(
+            const isFollowing = await FollowService.isFollowing(
                 req.app.get('db'),
                 following_id,
                 req.user.id
             )
 
-            return res
-                .status(201)
-                .json({ message: `${req.user.id} unfollowed ${following_id}` })
-                .end()
+            if (!isFollowing) {
+                return res
+                    .status(400)
+                    .end()
+            }
+
+            else {
+                await FollowService.removeFollow(
+                    req.app.get('db'),
+                    following_id,
+                    req.user.id
+                )
+                return res
+                    .status(204)
+                    .json({ message: `${req.user.id} unfollowed ${following_id}` })
+            }
         }
         catch (error) {
+
             next(error)
         }
     })

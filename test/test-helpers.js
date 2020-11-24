@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+require('dotenv').config()
 
 function makeUsersArray() {
     return [
@@ -38,7 +39,8 @@ function makeUsersArray() {
 
 function makeInitFixtures() {
     const testUsers = makeUsersArray()
-    return { testUsers }
+    const testFollowers = makeFollowersArray()
+    return { testUsers, testFollowers }
 }
 
 function makeAuthHeader(user, secret = process.env.JWT_SECRET) {
@@ -62,6 +64,41 @@ function seedUsers(db, users) {
             )
         )
 }
+
+function makeFollowersArray() {
+    return [
+        {
+            id: 1,
+            following_id: 3,
+            users_id: 1
+        },
+        {
+            id: 2,
+            following_id: 2,
+            users_id: 1
+        },
+        {
+            id: 3,
+            following_id: 1,
+            users_id: 3
+        },
+        {
+            id: 4,
+            following_id: 1,
+            users_id: 2
+        }
+    ]
+}
+
+
+function seedFollowers(db, arr) {
+
+    return db
+        .insert(arr)
+        .into('following')
+
+}
+
 
 // function seedInitTables(db, users, workouts, exercises, exercise_sets) {
 //     // use a transaction to group the queries and auto rollback on any failure
@@ -99,21 +136,24 @@ function cleanTables(db) {
                 user_information,
                 user_avatar,
                 init_posts,
-                following
+                following,
+                init_comments
             `
         )
-        .then(() =>
-            Promise.all([
-                trx.raw(`ALTER SEQUENCE user_information_id_seq minvalue 0 START WITH 1`),
-                trx.raw(`ALTER SEQUENCE user_avatar_id_seq minvalue 0 START WITH 1`),
-                trx.raw(`ALTER SEQUENCE init_posts_id_seq minvalue 0 START WITH 1`),
-                trx.raw(`ALTER SEQUENCE following_id_seq minvalue 0 START WITH 1`),
-                trx.raw(`SELECT setval('user_information_id_seq', 0)`),
-                trx.raw(`SELECT setval('user_avatar_id_seq', 0)`),
-                trx.raw(`SELECT setval('init_posts_id_seq', 0)`),
-                trx.raw(`SELECT setval('following_id_seq', 0)`),
-            ])
-        )
+            .then(() =>
+                Promise.all([
+                    trx.raw(`ALTER SEQUENCE user_information_id_seq minvalue 0 START WITH 1`),
+                    trx.raw(`ALTER SEQUENCE user_avatar_id_seq minvalue 0 START WITH 1`),
+                    trx.raw(`ALTER SEQUENCE init_posts_id_seq minvalue 0 START WITH 1`),
+                    trx.raw(`ALTER SEQUENCE following_id_seq minvalue 0 START WITH 1`),
+                    trx.raw(`ALTER SEQUENCE init_comments_id_seq minvalue 0 START WITH 1`),
+                    trx.raw(`SELECT setval('user_information_id_seq', 0)`),
+                    trx.raw(`SELECT setval('user_avatar_id_seq', 0)`),
+                    trx.raw(`SELECT setval('init_posts_id_seq', 0)`),
+                    trx.raw(`SELECT setval('following_id_seq', 0)`),
+                    trx.raw(`SELECT setval('init_comments_id_seq', 0)`),
+                ])
+            )
     )
 }
 
@@ -121,7 +161,8 @@ module.exports = {
     makeUsersArray,
     makeInitFixtures,
     makeAuthHeader,
-
+    makeFollowersArray,
+    seedFollowers,
     seedUsers,
-    cleanTables,   
+    cleanTables,
 }

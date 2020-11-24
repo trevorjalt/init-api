@@ -30,20 +30,18 @@ avatarRouter
     .post(requireAuth, [upload.single('imageRequest')], uploadAvatar)
 
 avatarRouter
+    .route('/upload/:avatar_id')
+    .patch(requireAuth, verifyAvatarExists, [upload.single('imageRequest')], updateAvatar)
+
+avatarRouter
     .route('/download')
     .get(requireAuth, downloadAvatar)
 
-
-// userRouter
-//     .route('/:user_id')
-//     .all(requireAuth)
-//     .get(requireAuth, verifyUserExists, getUser)
-
-async function uploadAvatar(req, res) {
+async function uploadAvatar(req, res, next) {
     try { 
         
-        console.log('REQUEST REQUEST', req)
-        console.log('FILE FILE', req.file)
+        // console.log('REQUEST REQUEST', req)
+        // console.log('FILE FILE', req.file)
         
         const imgData = fs.readFileSync(req.file.path)
 
@@ -55,69 +53,102 @@ async function uploadAvatar(req, res) {
 
         uploadData.user_id = req.user.id
 
-        await AvatarService.insertAvatar(
+        const rows = await AvatarService.insertAvatar(
             req.app.get('db'),
             uploadData
         )
-            .then(rows => {
-                console.log(rows[0]);
 
-                fs.unlink(req.file.path, function(err) {
-                    if (err) {
-                        console.log('Error Deleting', err)
-                        return
-                    }
-                    console.log('Temp Image Deleted')
-                })
-            })
-            res.end()
+        console.log(rows[0]);
+
+        fs.unlink(req.file.path, function(err) {
+            if (err) {
+                next(err)
+                return
+            }
+            console.log('Temp Image Deleted')
+            res.sendStatus(201)
+        })
     } catch(error) {
-        console.log('Error Inserting in DB:', error)
+        next(error)
     }
 }
 
-async function downloadAvatar(req, res) {
+async function updateAvatar(req, res, next) {
+    try { 
+        
+        // console.log('REQUEST REQUEST', req)
+        // console.log('FILE FILE', req.file)
+        
+        const imgData = fs.readFileSync(req.file.path)
+
+        const updateData = {
+            name: req.body.someText,
+            img_type: req.file.mimetype,
+            img_file: imgData,
+            date_created: new Date(),
+        }
+
+        const numberOfValues = Object.values(updateData).filter(Boolean).length
+        if (numberOfValues === 0)
+            return await res.status(400).json({
+                error: { message: `Invalid request`}
+        })
+
+
+        const rows = await AvatarService.updateAvatar(
+            req.app.get('db'),
+            req.params.avatar_id,
+            updateData
+        )
+
+        console.log(rows[0]);
+
+        fs.unlink(req.file.path, function(err) {
+            if (err) {
+                next(err)
+                return
+            }
+            console.log('Temp Image Deleted')
+            res.status(204).end()
+        })
+    } catch(error) {
+        next(error)
+    }
+}
+
+async function downloadAvatar(req, res, next) {
     try {
-        await AvatarService.getAvatar(
+        const rows = await AvatarService.getAvatar(
             req.app.get('db'),
             req.user.id
         )
-            .then(console.log('RESPOnsE RESSPONSE', res))
-            .then(rows => {
-                res.json(rows)
-            })
+
+        res.json(rows)
     } catch(error) {
-        console.log('Error downloading avatar', error)
+        next(error)
     }
 }
 
-// async function verifyUserExists(req, res, next) {
-//     try {
-//         const user = await UserService.getById(
-//             req.app.get('db'),
-//             req.params.user_id
-//         )
+async function verifyAvatarExists(req, res, next) {
+    try {
+        console.log('PARAMS', req.params.avatar_id)
+        const currentAvatar = await AvatarService.getById(
+            req.app.get('db'),
+            req.params.avatar_id
+        )
 
-//         if (!user)
-//             return await res.status(404).json({
-//                 error: `User not found`
-//             })
+        if(!currentAvatar)
+            return await res.status(404).json({
+                error: { message:`Avatar not found` }
+            })
 
-//         res.user = user
-//         next()
-//     } catch (error) {
-//         next(error)
-//     }
-// }
+        res.avatar = currentAvatar
 
-// async function getUser(req, res, next) {
-//     try {
-//         await res.json(UserService.serializeUser(res.user))
-
-//         next()
-//     } catch (error) {
-//         next(error)
-//     }
-// }
+        next()
+        
+    } catch (error) {
+        next(error)
+    }
+}
 
 module.exports = avatarRouter
