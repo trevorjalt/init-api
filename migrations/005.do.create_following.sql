@@ -3,5 +3,7 @@ CREATE TABLE following (
     following_id INTEGER
         REFERENCES user_information(id) ON DELETE CASCADE NOT NULL,
     users_id INTEGER
-        REFERENCES user_information(id) ON DELETE CASCADE NOT NULL
+        REFERENCES user_information(id) ON DELETE CASCADE NOT NULL,
+    date_created TIMESTAMP DEFAULT now() NOT NULL,
+    unread BOOLEAN DEFAULT true NOT NULL
 );
