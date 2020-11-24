@@ -16,7 +16,8 @@ const serializePost = (post) => {
         tech_stack: post.tech_stack,
         user_id: post.user_id,
         username: post.username,
-        fullname: post.fullname
+        fullname: post.fullname,
+        description: post.post_description
     }
 }
 
@@ -72,8 +73,6 @@ initPostRouter
                 req.app.get('db'),
                 req.params.post_id
             )
-
-            console.log(post)
 
             return res
                 .status(200)

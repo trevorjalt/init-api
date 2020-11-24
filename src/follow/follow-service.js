@@ -61,8 +61,6 @@ const FollowService = {
             .insert({ users_id: following, following_id: user })
             .into('following')
             .catch(err => console.log(err))
-
-
     },
 
     removeFollow(db, users_id, following_id) {
@@ -100,6 +98,13 @@ const FollowService = {
             .count('following_id')
             .from('following')
             .where({ users_id })
+    },
+    makeFollowNotification(db, user_id, following_id) {
+        //no message
+        //make notification in table for following_id
+        //type = follow
+        //store user_id
+
     }
 
 

@@ -56,11 +56,15 @@ commentRouter
                 text
             )
 
-            return res
-                .status(204)
-                .end()
-        }
+            const comm = await CommentService.getCommentsForPost(
+                req.app.get('db'),
+                req.params.post_id,
+            )
 
+            return res
+                .status(201)
+                .json(serializeComments(comm))
+        }
         catch (error) {
             next(error)
         }
