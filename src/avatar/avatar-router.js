@@ -43,7 +43,7 @@ async function uploadAvatar(req, res, next) {
         // console.log('REQUEST REQUEST', req)
         // console.log('FILE FILE', req.file)
         
-        const imgData = fs.readFileSync(req.file.path)
+        // const imgData = fs.readFileSync(req.file.path)
 
         const uploadData = {
             name: req.body.someText,
