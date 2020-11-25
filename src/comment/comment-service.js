@@ -24,16 +24,13 @@ const CommentService = {
                             user_id: c.user_id,
                             date_created: c.date_created
                         }
-
                     }
-
                     catch (error) {
                         return console.log(error)
                     }
                 }))
 
             return fullComments;
-
         }
         catch (error) {
             return console.log(error)

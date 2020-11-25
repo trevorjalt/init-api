@@ -36,6 +36,8 @@ describe('Follow Endpoints', function () {
             )
         )
 
+
+
         describe('Given that a user has no followers and is following no users', function () {
             it(`Responds with 200 and an object with two keys, followedByUser and followingUser, with empty arrays for values`, async () => {
                 let res = await supertest(app)
@@ -70,6 +72,8 @@ describe('Follow Endpoints', function () {
 
 
             })
+
+            //if someone is actually following
         })
     })
 
@@ -89,18 +93,8 @@ describe('Follow Endpoints', function () {
                     .post(`/api/follow`)
                     .set('Authorization', helpers.makeAuthHeader(testUser))
                     .send({ following_id: testUsers[2].id })
-                    .expect(204)
+                    .expect(200)
                     .catch(err => console.log(err))
-            })
-
-            it('Responds with 400 if follower_id is the id of the current user', () => {
-                return supertest(app)
-                    .post(`/api/follow`)
-                    .set('Authorization', helpers.makeAuthHeader(testUser))
-                    .send({ following_id: testUser.id })
-                    .expect(400)
-                    .catch(err => console.log(err))
-
             })
         })
 
@@ -137,7 +131,7 @@ describe('Follow Endpoints', function () {
                     .delete(`/api/follow`)
                     .set('Authorization', helpers.makeAuthHeader(testUser))
                     .send({ following_id: testUsers[1].id })
-                    .expect(204)
+                    .expect(200)
             })
         })
 

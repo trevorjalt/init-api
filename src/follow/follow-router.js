@@ -17,8 +17,6 @@ const serializeFollow = arr => {
     })
 }
 
-//image type
-//image file
 
 followRouter
     .route('/')
@@ -62,7 +60,6 @@ followRouter
             )
 
             if (isFollowing) {
-                console.log('turned back because already following')
                 return res
                     .status(400)
                     .json({ error: 'user is already following' })
