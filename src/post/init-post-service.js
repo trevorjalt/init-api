@@ -35,13 +35,7 @@ const InitPostService = {
       return console.log(error)
     }
 
-
-
-
-
-
-
-  }
+  },
 };
 
 module.exports = InitPostService;

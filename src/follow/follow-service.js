@@ -8,7 +8,6 @@ const FollowService = {
                 .select('users_id')
                 .from('following')
                 .where({ following_id: user_id })
-
             const followsData = await Promise.all(
 
                 follows.map(async f => {
@@ -18,14 +17,6 @@ const FollowService = {
                             .select('fullname', 'username', 'id')
                             .from('user_information')
                             .where({ id: users_id })
-
-                        /*HOW CAN I GET THIS TO WORK???? ADDED TO OBJECT AND NOT WORKING*/
-                        let avatar = await AvatarService.getAvatar(db, 1)
-                        console.log(avatar)
-                        // let { img_type, img_file } = avatar
-                        // console.log('AVATAR RESPONSE', img_type, img_file)
-
-
                         return followData
                     }
                     catch {
@@ -45,7 +36,6 @@ const FollowService = {
                 .select('following_id')
                 .from('following')
                 .where({ users_id })
-
             const followingsData = await Promise.all(
                 following.map(async f => {
 
@@ -66,28 +56,16 @@ const FollowService = {
         }
     },
 
-    async addFollow(db, user, following) {
-        const isPresent = await db
-            .select('*')
-            .from('following')
-            .where({ users_id: following, following_id: user })
-
-        if (!isPresent.length) {
-            return db
-                .insert({ users_id: following, following_id: user })
-                .into('following')
-                .catch(err => console.log(err))
-        }
-        else {
-            return { error: 'user is already following' }
-        }
-
+    addFollow(db, user, following) {
+        return db
+            .insert({ users_id: following, following_id: user })
+            .into('following')
+            .catch(err => console.log(err))
     },
 
-    async removeFollow(db, users_id, following_id) {
+    removeFollow(db, users_id, following_id) {
         try {
-
-            return await db
+            return db
                 .from('following')
                 .where({ users_id })
                 .andWhere({ following_id })
@@ -96,6 +74,16 @@ const FollowService = {
         catch {
             return err => console.log(err)
         }
+    },
+
+    async isFollowing(db, user, following) {
+        const res = await db
+            .select('*')
+            .from('following')
+            .where({ users_id: user, following_id: following })
+
+        return res.length ? true : false
+
     },
 
     async countFollowedbyUser(db, user_id) {
@@ -110,6 +98,13 @@ const FollowService = {
             .count('following_id')
             .from('following')
             .where({ users_id })
+    },
+    makeFollowNotification(db, user_id, following_id) {
+        //no message
+        //make notification in table for following_id
+        //type = follow
+        //store user_id
+
     }
 
 

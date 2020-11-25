@@ -1,5 +1,5 @@
 CREATE TABLE user_avatar (
-	id SERIAL PRIMARY KEY,
+	id SERIAL PRIMARY KEY UNIQUE,
 	name TEXT,
 	date_created TIMESTAMPTZ DEFAULT now(),
 	img_type TEXT NOT NULL,
