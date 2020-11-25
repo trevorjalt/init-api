@@ -40,7 +40,9 @@ function makeUsersArray() {
 function makeInitFixtures() {
     const testUsers = makeUsersArray()
     const testFollowers = makeFollowersArray()
-    return { testUsers, testFollowers }
+    const testPosts = makePostsArray()
+    const testComments = makeCommentsArray()
+    return { testUsers, testFollowers, testPosts, testComments }
 }
 
 function makeAuthHeader(user, secret = process.env.JWT_SECRET) {
@@ -90,6 +92,71 @@ function makeFollowersArray() {
     ]
 }
 
+function makePostsArray() {
+    return [
+        {
+            id: 1,
+            username: 'test-user-1',
+            post_title: 'post 1',
+            post_description: 'post description 1',
+            post_live_link: null,
+            post_repository: null,
+            post_image_file: '/hexadeci',
+            post_image_type: '/hexadeci',
+            tech_stack: 'Tech stack',
+            user_id: 1
+        },
+        {
+            id: 2,
+            username: 'test-user-1',
+            post_title: 'post 2',
+            post_description: 'post description 2',
+            post_live_link: null,
+            post_repository: null,
+            post_image_file: '/hexadeci',
+            post_image_type: '/hexadeci',
+            tech_stack: 'Tech stack',
+            user_id: 1
+        },
+        {
+            id: 3,
+            username: 'test-user-2',
+            post_title: 'post 3',
+            post_description: 'post description 3',
+            post_live_link: null,
+            post_repository: null,
+            post_image_file: '/hexadeci',
+            post_image_type: '/hexadeci',
+            tech_stack: 'Tech stack',
+            user_id: 2
+        }
+
+    ]
+}
+
+function makeCommentsArray() {
+    return [
+        {
+            id: 1,
+            post_id: 1,
+            user_id: 1,
+            text: 'First comment'
+        },
+        {
+            id: 2,
+            post_id: 1,
+            user_id: 2,
+            text: 'Second comment'
+        },
+        {
+            id: 3,
+            post_id: 1,
+            user_id: 3,
+            text: 'Third comment'
+        }
+    ]
+}
+
 
 function seedFollowers(db, arr) {
 
@@ -97,6 +164,18 @@ function seedFollowers(db, arr) {
         .insert(arr)
         .into('following')
 
+}
+
+function seedPosts(db, arr) {
+    return db
+        .insert(arr)
+        .into('init_posts')
+}
+
+function seedComments(db, arr) {
+    return db
+        .insert(arr)
+        .into('init_comments')
 }
 
 
@@ -164,5 +243,7 @@ module.exports = {
     makeFollowersArray,
     seedFollowers,
     seedUsers,
+    seedPosts,
+    seedComments,
     cleanTables,
 }

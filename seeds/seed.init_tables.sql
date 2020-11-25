@@ -132,7 +132,7 @@ INSERT INTO init_comments (
 
 COMMIT;
 
-INSERT INTO init_follows ( username, avatar_id, followed_id, activity_message)
+INSERT INTO init_follows ( username, posted_id, followed_id, activity_message)
 VALUES
 ('Really Son Goku', 1, 2, 'has began to follow you'),
 ('The Strongest Ever', 2, 3, 'has began to follow you'),

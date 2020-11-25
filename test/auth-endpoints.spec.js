@@ -4,7 +4,7 @@ const app = require('../src/app')
 const helpers = require('./test-helpers')
 const supertest = require('supertest')
 
-describe('Auth Endpoints', function() {
+describe('Auth Endpoints', function () {
     let db
 
     const { testUsers } = helpers.makeInitFixtures()
@@ -66,6 +66,7 @@ describe('Auth Endpoints', function() {
                     .post('/api/auth/login')
                     .send(userInvalidPassword)
                     .expect(400, { error: `Invalid username or password` })
+
             })
 
             it(`responds with 200 and JWT auth token using secret when valid credentials`, () => {
@@ -74,12 +75,12 @@ describe('Auth Endpoints', function() {
                     user_password: testUser.user_password,
                 }
                 const expectedToken = jwt.sign(
-                    { 
+                    {
                         user_id: testUser.id,
                         fullname: testUser.fullname,
                         email: testUser.email,
                         about_user: testUser.about_user,
-                        user_stack: testUser.user_stack 
+                        user_stack: testUser.user_stack
                     },
                     process.env.JWT_SECRET,
                     {
@@ -94,7 +95,7 @@ describe('Auth Endpoints', function() {
                     .expect(200, {
                         authToken: expectedToken,
                     })
-            })            
+            })
         })
     })
 })
