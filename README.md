@@ -1,6 +1,14 @@
-# Express Boilerplate!
+# Init API
 
-This is a boilerplate project used for starting new projects!
+`Init` is a social media app that helps developers connect over their work.
+
+This is a repository for the `Init API`.
+
+You can view `Init` at [here]()
+
+You can view the `Init Client` repository [here](https://github.com/trevorjalt/init-client)
+
+`Init` was created by [Adyceum Magna Ccarri](https://github.com/i-MCcarri), [Rachel Reilly](https://github.com/Rachanastasia), [Steven Henderson](https://github.com/Hendoe), and [Trevor J Alt](https://github.com/trevorjalt)
 
 ## Set up
 
@@ -20,7 +28,3 @@ Start the application `npm start`
 Start nodemon for the application `npm run dev`
 
 Run the tests `npm test`
-
-## Deploying
-
-When your new project is ready for deployment, add a new Heroku application with `heroku create`. This will make a new git remote called "heroku" and you can then `npm run deploy` which will push to this remote's master branch.
