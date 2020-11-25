@@ -10,6 +10,47 @@ You can view the `Init Client` repository [here](https://github.com/trevorjalt/i
 
 `Init` was created by [Adyceum Magna Ccarri](https://github.com/i-MCcarri), [Rachel Reilly](https://github.com/Rachanastasia), [Steven Henderson](https://github.com/Hendoe), and [Trevor J Alt](https://github.com/trevorjalt)
 
+## Tech Stack
+
+. Node.js with Express
+. PostgreSQL with Knex.js
+. Mocha, Chai, SuperTest
+. JWT Authentication
+
+## API Endpoints
+
+### /api/auth
+
+### /api/avatar
+
+### /api/user
+
+### /api/follow
+
+#### GET /api/follow
+
+Get all users that are following the logged in user and all of the users which the logged in user is following.
+
+#### POST /api/follow
+
+Adds follower to current user's followers
+
+#### DELETE /api/follow
+
+Removes follower from current user's followers
+
+### /api/post
+
+### /api/comment
+
+#### GET /api/comment/:post_id
+
+Get all comments for a specific post by id.
+
+#### POST /api/comment/:post_id
+
+Add a comment to the post with the specific id. This returns an array of all comments for the post.
+
 ## Set up
 
 Complete the following steps to start a new project (NEW-PROJECT-NAME):
