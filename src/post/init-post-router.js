@@ -33,20 +33,20 @@ initPostRouter
     .route('/download')
     .get(requireAuth, downloadPost)
 
-// const serializePost = (post) => {
+const serializePost = (post) => {
 
-//     return {
-//         post_id: post.id,
-//         title: post.post_title,
-//         live_link: post.post_live_link,
-//         repository: post.post_repository,
-//         tech_stack: post.tech_stack,
-//         user_id: post.user_id,
-//         username: post.username,
-//         fullname: post.fullname,
-//         description: post.post_description
-//     }
-// }
+    return {
+        post_id: post.id,
+        title: post.post_title,
+        live_link: post.post_live_link,
+        repository: post.post_repository,
+        tech_stack: post.tech_stack,
+        user_id: post.user_id,
+        username: post.username,
+        fullname: post.fullname,
+        description: post.post_description
+    }
+}
 
 async function uploadPost(req, res, next) {
     try { 
@@ -93,11 +93,13 @@ async function uploadPost(req, res, next) {
 
 async function downloadPost(req, res, next) {
     try {
-        const rows = await AvatarService.getUserPosts(
+        const rows = await InitPostService.getUserPosts(
             req.app.get('db'),
             req.user.id
         )
 
+        console.log('Page', req.query.page)
+        console.log('Limit', req.query.limit)
         // START Pagination!!! Will convert this to a Helper Function so it can be used throughout the Server, if it will help
         // Page determines where to begin our query, limit is how many items to return
         const page = parseInt(req.query.page)
@@ -109,7 +111,7 @@ async function downloadPost(req, res, next) {
 
         //This begins empty, eventually it will be populated by only the data we are seeking
         const results = {};
-
+        console.log('Rows', rows)
         //results.next tells us what the next page# is, but it won't be returned if we are at the end of the data
         if (endIndex < rows.length) {
             results.next = {
@@ -130,6 +132,7 @@ async function downloadPost(req, res, next) {
         //It slices everything and populates our results with only what we seek, i.e. the index we start at and what our limit is
         results.results = rows.slice(startIndex, endIndex);
         //END Pagination
+        console.log('RESULTS', results)
         res.json(results);
     } catch(error) {
         next(error)
@@ -179,29 +182,29 @@ async function downloadPost(req, res, next) {
 //             })
 //     });
 
-// initPostRouter
-//     .route('/:post_id')
-//     .get(requireAuth, async (req, res, next) => {
+initPostRouter
+    .route('/:post_id')
+    .get(requireAuth, async (req, res, next) => {
 
-//         try {
-//             const post = await InitPostService.getPostById(
-//                 req.app.get('db'),
-//                 req.params.post_id
-//             )
+        try {
+            const post = await InitPostService.getPostById(
+                req.app.get('db'),
+                req.params.post_id
+            )
 
-//             return res
-//                 .status(200)
-//                 .json(serializePost(post))
-//                 .end()
+            return res
+                .status(200)
+                .json(serializePost(post))
+                .end()
 
-//         }
-//         catch (error) {
-//             next(error)
-//         }
+        }
+        catch (error) {
+            next(error)
+        }
 
 
 
-//     })
+    })
 
 
 module.exports = initPostRouter;
