@@ -12,6 +12,8 @@ describe.only('Comment endpoints', function () {
     const { testUsers, testComments, testPosts } = helpers.makeInitFixtures()
     const testUser = testUsers[0]
 
+    console.log('TEST COMMENTS', testComments, 'TEST POSTS', testPosts)
+
     before('make knex instance', () => {
         db = knex({
             client: 'pg',
@@ -26,7 +28,7 @@ describe.only('Comment endpoints', function () {
 
     afterEach('cleanup', () => helpers.cleanTables(db))
 
-    describe.only('GET /api/comment/:post_id', function () {
+    describe('GET /api/comment/:post_id', function () {
 
         beforeEach('insert users', () =>
             helpers.seedUsers(
@@ -54,7 +56,7 @@ describe.only('Comment endpoints', function () {
                 .get(`/api/comment/1`)
                 .set('Authorization', helpers.makeAuthHeader(testUser))
 
-            console.log(res.body)
+            console.log('Res Body', res.body)
             expect(res.status).to.equal(200);
             expect(res.body).to.be.an('array')
             expect(res.body[0]).to.be.an('object')

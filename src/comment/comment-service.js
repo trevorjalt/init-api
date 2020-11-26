@@ -43,11 +43,17 @@ const CommentService = {
             .into('init_comments')
             .catch(err => console.log(err))
     },
-    makeCommentNotification(db, user_id, post_id, text) {
+    async makeCommentNotification(db, user_id, post_id, text) {
+        const posts = await db
+            .select('', '')
         //get users's id from post_id
         //save line in notifications table for that user
         //including comment text
         //user name of commenter
+    },
+    readComments(db, user_id) {
+        // const posts = await db
+        // .select('','')
     }
 
 
