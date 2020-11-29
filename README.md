@@ -1,10 +1,10 @@
-# Init API
+# [Init](https://init-blush.vercel.app/) API
 
 `Init` is a social media app that helps developers connect over their work.
 
 This is a repository for the `Init API`.
 
-You can view `Init` at [here]()
+You can view the live project [here](https://init-blush.vercel.app/)
 
 You can view the `Init Client` repository [here](https://github.com/trevorjalt/init-client)
 
